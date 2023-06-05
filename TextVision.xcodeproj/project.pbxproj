@@ -9,21 +9,23 @@
 /* Begin PBXBuildFile section */
 		9A6DC81F2A2CD70300A554E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6DC81E2A2CD70300A554E3 /* AppDelegate.swift */; };
 		9A6DC8212A2CD70300A554E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6DC8202A2CD70300A554E3 /* SceneDelegate.swift */; };
-		9A6DC8232A2CD70300A554E3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6DC8222A2CD70300A554E3 /* ViewController.swift */; };
+		9A6DC8232A2CD70300A554E3 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6DC8222A2CD70300A554E3 /* WelcomeViewController.swift */; };
 		9A6DC8262A2CD70300A554E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A6DC8242A2CD70300A554E3 /* Main.storyboard */; };
 		9A6DC8282A2CD70500A554E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6DC8272A2CD70500A554E3 /* Assets.xcassets */; };
 		9A6DC82B2A2CD70500A554E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A6DC8292A2CD70500A554E3 /* LaunchScreen.storyboard */; };
+		9A6DC8372A2D33EA00A554E3 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6DC8362A2D33EA00A554E3 /* ResultViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9A6DC81B2A2CD70300A554E3 /* TextVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A6DC81E2A2CD70300A554E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A6DC8202A2CD70300A554E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9A6DC8222A2CD70300A554E3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9A6DC8222A2CD70300A554E3 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		9A6DC8252A2CD70300A554E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A6DC8272A2CD70500A554E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A6DC82A2A2CD70500A554E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9A6DC82C2A2CD70500A554E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A6DC8362A2D33EA00A554E3 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +58,48 @@
 		9A6DC81D2A2CD70300A554E3 /* TextVision */ = {
 			isa = PBXGroup;
 			children = (
-				9A6DC81E2A2CD70300A554E3 /* AppDelegate.swift */,
-				9A6DC8202A2CD70300A554E3 /* SceneDelegate.swift */,
-				9A6DC8222A2CD70300A554E3 /* ViewController.swift */,
-				9A6DC8242A2CD70300A554E3 /* Main.storyboard */,
-				9A6DC8272A2CD70500A554E3 /* Assets.xcassets */,
-				9A6DC8292A2CD70500A554E3 /* LaunchScreen.storyboard */,
+				9A6DC8352A2CD79900A554E3 /* Base */,
+				9A6DC8322A2CD76900A554E3 /* Views */,
+				9A6DC8332A2CD76F00A554E3 /* Controllers */,
+				9A6DC8342A2CD78200A554E3 /* Resources */,
 				9A6DC82C2A2CD70500A554E3 /* Info.plist */,
 			);
 			path = TextVision;
+			sourceTree = "<group>";
+		};
+		9A6DC8322A2CD76900A554E3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9A6DC8292A2CD70500A554E3 /* LaunchScreen.storyboard */,
+				9A6DC8242A2CD70300A554E3 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9A6DC8332A2CD76F00A554E3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9A6DC8222A2CD70300A554E3 /* WelcomeViewController.swift */,
+				9A6DC8362A2D33EA00A554E3 /* ResultViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9A6DC8342A2CD78200A554E3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9A6DC8272A2CD70500A554E3 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9A6DC8352A2CD79900A554E3 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				9A6DC81E2A2CD70300A554E3 /* AppDelegate.swift */,
+				9A6DC8202A2CD70300A554E3 /* SceneDelegate.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +173,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A6DC8232A2CD70300A554E3 /* ViewController.swift in Sources */,
+				9A6DC8232A2CD70300A554E3 /* WelcomeViewController.swift in Sources */,
 				9A6DC81F2A2CD70300A554E3 /* AppDelegate.swift in Sources */,
 				9A6DC8212A2CD70300A554E3 /* SceneDelegate.swift in Sources */,
+				9A6DC8372A2D33EA00A554E3 /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +326,8 @@
 				DEVELOPMENT_TEAM = 9A2Y9UTZLK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TextVision/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This application requires access to the camera.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -318,6 +356,8 @@
 				DEVELOPMENT_TEAM = 9A2Y9UTZLK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TextVision/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This application requires access to the camera.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
