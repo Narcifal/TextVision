@@ -31,6 +31,14 @@ class WelcomeViewController: UIViewController {
     @IBAction func galleryButtonTapped(_ sender: UIButton) {
         pickerPresentor(sourceType: .photoLibrary)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "testSegue" {
+            if let destinationVC = segue.destination as? ResultViewController {
+                destinationVC.image = selectedImage
+            }
+        }
+    }
 }
 
 //MARK: - Private -
@@ -58,13 +66,5 @@ extension WelcomeViewController: UIImagePickerControllerDelegate,  UINavigationC
         picker.dismiss(animated: true)
         
         self.performSegue(withIdentifier: "testSegue", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "testSegue" {
-            if let destinationVC = segue.destination as? ResultViewController {
-                destinationVC.image = selectedImage
-            }
-        }
     }
 }
