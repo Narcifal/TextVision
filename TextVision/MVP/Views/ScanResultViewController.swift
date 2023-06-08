@@ -8,27 +8,14 @@
 import UIKit
 import Vision
 
-struct RecognizedTextBlock {
-    let textValue: String
-    let recognizedTextRect: CGRect
-}
-
-extension CGRect {
-    func scaled(to size: CGSize) -> CGRect {
-        return CGRect(
-            x: self.origin.x * size.width,
-            y: self.origin.y * size.height,
-            width: self.size.width * size.width,
-            height: self.size.height * size.height
-        )
-    }
-}
-
-class ResultViewController: UIViewController {
+final class ScanResultViewController: UIViewController {
 
     //MARK: - IBOutlets -
-    @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet private weak var label: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    
+    //MARK: - Constants -
+    private let presenter = ScanResultPresenter()
     
     //MARK: - Variables -
     public var image = UIImage()
@@ -55,14 +42,19 @@ class ResultViewController: UIViewController {
             }
             
             if (!observations.isEmpty) {
-                for currentObservations in observations {
+                for _ in observations {
                     let recognizedStrings = observations.compactMap({
                         $0.topCandidates(1).first?.string
                     }).joined(separator: " ")
-                    
+
                     DispatchQueue.main.async {
                         self.label.text = recognizedStrings
-                        self.imageView.image = image
+                        if let image = image {
+                            self.imageView.image = self.presenter.drawBoundingBoxes(
+                                image: image,
+                                observations: observations)
+                            //self.imageView.image = image
+                        }
                     }
                 }
             }
@@ -74,11 +66,18 @@ class ResultViewController: UIViewController {
         textRecognitionRequest.usesLanguageCorrection = true
         textRecognitionRequest.minimumTextHeight = 0.014
         
-        do {
-            // Perform the text-recognition request.
-            try requestHandler.perform([textRecognitionRequest])
-        } catch {
-            print(error)
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                // Perform the text-recognition request.
+                try requestHandler.perform([textRecognitionRequest])
+            } catch let error as NSError {
+                print("Failed to perform image request: \(error)")
+                return
+            }
         }
     }
+}
+
+extension ScanResultViewController: ScanResultPresenterDelegate {
+    
 }

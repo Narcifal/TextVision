@@ -7,11 +7,14 @@
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+final class StartMenuViewController: UIViewController, StartMenuPresenterDelegate {
     
     //MARK: - IBOutlets -
-    @IBOutlet weak var cameraButton: UIButton!
-    @IBOutlet weak var galleryButton: UIButton!
+    @IBOutlet private weak var cameraButton: UIButton!
+    @IBOutlet private weak var galleryButton: UIButton!
+    
+    //MARK: - Constants -
+    private let presenter = StartMenuPresenter()
     
     //MARK: - Variables -
     private var selectedImage = UIImage()
@@ -19,8 +22,22 @@ class WelcomeViewController: UIViewController {
     //MARK: - Life Cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        presenter.setViewDelegate(startMenuPresenterDelegate: self)
     }
+    
+    //MARK: - Iternal -
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constats.Segue.toScanResult {
+            if let destinationVC = segue.destination as? ScanResultViewController {
+                destinationVC.image = selectedImage
+            }
+        }
+    }
+}
+
+//MARK: - Private -
+private extension StartMenuViewController {
     
     //MARK: - IBActions -
     @IBAction func cameraButtonTapped(_ sender: UIButton) {
@@ -32,17 +49,6 @@ class WelcomeViewController: UIViewController {
         pickerPresentor(sourceType: .photoLibrary)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "testSegue" {
-            if let destinationVC = segue.destination as? ResultViewController {
-                destinationVC.image = selectedImage
-            }
-        }
-    }
-}
-
-//MARK: - Private -
-private extension WelcomeViewController {
     func pickerPresentor(sourceType: UIImagePickerController.SourceType) {
         let picker = UIImagePickerController()
         picker.sourceType = sourceType
@@ -52,7 +58,7 @@ private extension WelcomeViewController {
 }
 
 //MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate -
-extension WelcomeViewController: UIImagePickerControllerDelegate,  UINavigationControllerDelegate {
+extension StartMenuViewController: UIImagePickerControllerDelegate,  UINavigationControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
@@ -65,6 +71,11 @@ extension WelcomeViewController: UIImagePickerControllerDelegate,  UINavigationC
 
         picker.dismiss(animated: true)
         
-        self.performSegue(withIdentifier: "testSegue", sender: self)
+        let segue = Constats.Segue.toScanResult
+        self.performSegue(withIdentifier: segue, sender: self)
     }
+}
+
+extension StartMenuViewController: ScanResultPresenterDelegate {
+    
 }

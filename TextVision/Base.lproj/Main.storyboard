@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Welcome View Controller-->
+        <!--Start Menu View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="TextVision" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="StartMenuViewController" customModule="TextVision" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -78,17 +78,17 @@
                     <connections>
                         <outlet property="cameraButton" destination="eGM-RC-qdc" id="rbG-cB-DhP"/>
                         <outlet property="galleryButton" destination="vVS-7P-fek" id="KWw-Z9-gTA"/>
-                        <segue destination="AnS-xM-GQQ" kind="show" identifier="testSegue" id="XFJ-UC-hnr"/>
+                        <segue destination="AnS-xM-GQQ" kind="show" identifier="toScanResult" id="XFJ-UC-hnr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="903.07692307692309" y="3.5545023696682461"/>
         </scene>
-        <!--Result View Controller-->
+        <!--Scan Result View Controller-->
         <scene sceneID="am9-G5-ORw">
             <objects>
-                <viewController id="AnS-xM-GQQ" customClass="ResultViewController" customModule="TextVision" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="AnS-xM-GQQ" customClass="ScanResultViewController" customModule="TextVision" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="siJ-gJ-9Fh">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -105,7 +105,7 @@
                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="500" id="wlj-Sf-PiP"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTb-Rr-FGk">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTb-Rr-FGk">
                                                 <rect key="frame" x="20" y="520" width="350" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="fg6-YX-gUI"/>
