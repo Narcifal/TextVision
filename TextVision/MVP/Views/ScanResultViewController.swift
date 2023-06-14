@@ -7,6 +7,7 @@
 
 import UIKit
 import Vision
+import AVFoundation
 
 final class ScanResultViewController: UIViewController {
 
@@ -15,57 +16,59 @@ final class ScanResultViewController: UIViewController {
     @IBOutlet private weak var imageView: UIImageView!
     
     //MARK: - Constants -
-    private let presenter = ScanResultPresenter()
+    private var presenter = ScanResultPresenter()
     
     //MARK: - Variables -
-    public var image = UIImage()
+    public var image: UIImage?
     
     //MARK: - Life Cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        presenter.setViewDelegate(scanResultPresenterDelegate: self)
         recognizeText(image: image)
     }
     
     //MARK: - Private -
     private func recognizeText(image: UIImage?) {
-        // CGImage on which to perform requests.
         guard let cgImage = image?.cgImage else { return }
 
-        // Handler
-        let requestHandler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-        
-        // Request
-        let textRecognitionRequest = VNRecognizeTextRequest { (request, error) in
-            guard let observations =
-                    request.results as? [VNRecognizedTextObservation] else {
+        let cgOrientation = CGImagePropertyOrientation(rawValue: UInt32(image!.imageOrientation.rawValue))
+
+        let requestHandler = VNImageRequestHandler(cgImage: cgImage,
+                                                   orientation: cgOrientation!,
+                                                   options: [:])
+
+        let textRecognitionRequest = VNRecognizeTextRequest { [weak self] (request, error) in
+            guard let results = request.results as? [VNRecognizedTextObservation] else {
                 return
             }
-            
-            if (!observations.isEmpty) {
-                for _ in observations {
-                    let recognizedStrings = observations.compactMap({
+
+            if (!results.isEmpty) {
+                for currentObservation in results {
+                    let recognizedStrings = results.compactMap({
                         $0.topCandidates(1).first?.string
                     }).joined(separator: " ")
 
                     DispatchQueue.main.async {
-                        self.label.text = recognizedStrings
+                        self?.label.text = recognizedStrings
+
                         if let image = image {
-                            self.imageView.image = self.presenter.drawBoundingBoxes(
+                            self?.imageView.image = self?.presenter.drawBoundingBoxes(
                                 image: image,
-                                observations: observations)
-                            //self.imageView.image = image
+                                observations: results)
                         }
                     }
                 }
             }
             else {
-                self.label.text = "The program did not recognize the text."
+                self?.label.text = "The program did not recognize the text."
             }
         }
         textRecognitionRequest.recognitionLevel = .accurate
         textRecognitionRequest.usesLanguageCorrection = true
         textRecognitionRequest.minimumTextHeight = 0.014
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 // Perform the text-recognition request.

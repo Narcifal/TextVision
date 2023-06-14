@@ -29,13 +29,13 @@ final class ScanResultPresenter {
         context?.setLineWidth(3.0)
 
         var boundingBoxUnion: CGRect?
-
+        
         observations.forEach { observation in
             let boundingBox = observation.boundingBox
-
-            // Flip vertically
+            
             var transformedBoundingBox = boundingBox
-            transformedBoundingBox.origin.y = 1 - transformedBoundingBox.origin.y - transformedBoundingBox.size.height
+            transformedBoundingBox.origin.y =
+            1 - transformedBoundingBox.origin.y - transformedBoundingBox.size.height
 
             let transformedRect = VNImageRectForNormalizedRect(transformedBoundingBox,
                                                                Int(image.size.width),
@@ -50,7 +50,6 @@ final class ScanResultPresenter {
             }
         }
 
-        // Draw the union bounding box
         if let union = boundingBoxUnion {
             context?.setStrokeColor(UIColor.green.cgColor)
             context?.stroke(union)

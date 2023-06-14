@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class StartMenuViewController: UIViewController, StartMenuPresenterDelegate {
+final class StartMenuViewController: UIViewController {
     
     //MARK: - IBOutlets -
     @IBOutlet private weak var cameraButton: UIButton!
@@ -17,7 +17,7 @@ final class StartMenuViewController: UIViewController, StartMenuPresenterDelegat
     private let presenter = StartMenuPresenter()
     
     //MARK: - Variables -
-    private var selectedImage = UIImage()
+    private var selectedImage: UIImage?
     
     //MARK: - Life Cycle -
     override func viewDidLoad() {
@@ -30,7 +30,9 @@ final class StartMenuViewController: UIViewController, StartMenuPresenterDelegat
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constats.Segue.toScanResult {
             if let destinationVC = segue.destination as? ScanResultViewController {
-                destinationVC.image = selectedImage
+                if let image = selectedImage {
+                    destinationVC.image = image
+                }
             }
         }
     }
@@ -38,6 +40,8 @@ final class StartMenuViewController: UIViewController, StartMenuPresenterDelegat
 
 //MARK: - Private -
 private extension StartMenuViewController {
+
+    
     
     //MARK: - IBActions -
     @IBAction func cameraButtonTapped(_ sender: UIButton) {
@@ -65,10 +69,10 @@ extension StartMenuViewController: UIImagePickerControllerDelegate,  UINavigatio
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.originalImage] as? UIImage {
-            selectedImage = image
+        if let originalImage = info[.originalImage] as? UIImage {
+            selectedImage = originalImage
         }
-
+        
         picker.dismiss(animated: true)
         
         let segue = Constats.Segue.toScanResult
@@ -76,6 +80,6 @@ extension StartMenuViewController: UIImagePickerControllerDelegate,  UINavigatio
     }
 }
 
-extension StartMenuViewController: ScanResultPresenterDelegate {
+extension StartMenuViewController: StartMenuPresenterDelegate {
     
 }
