@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol RouterMain {
+protocol RouterMain: AnyObject {
     var navigationController: UINavigationController? { get set }
     var assemblyBuilder: AssemblyBuilderProtocol { get set }
 }
@@ -31,19 +31,16 @@ final class Router: RouterProtocol {
     }
     
     //MARK: - Internal -
-    func showStartMenuViewController() {
-        navigationController?.viewControllers = [assemblyBuilder.createStartMenuModule(router: self)]
-    }
-    
-    func showScanResultViewController(with imageModel: ImageModel) {
-        navigationController?.pushViewController(
-            assemblyBuilder.createScanResultModule(
+        func showStartMenuViewController() {
+            let startMenuModule = assemblyBuilder.createStartMenuModule(router: self)
+            navigationController?.setViewControllers([startMenuModule], animated: true)
+        }
+        
+        func showScanResultViewController(with imageModel: ImageModel) {
+            let scanResultModule = assemblyBuilder.createScanResultModule(
                 router: self,
-                imageModel: imageModel),
-            animated: true)
-    }
-    
-    func popViewController() {
-        navigationController?.popViewController(animated: true)
-    }
+                imageModel: imageModel
+            )
+            navigationController?.pushViewController(scanResultModule, animated: true)
+        }
 }

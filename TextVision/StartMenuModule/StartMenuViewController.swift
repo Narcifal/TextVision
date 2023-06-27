@@ -11,17 +11,39 @@ protocol StartMenuViewProtocol: AnyObject { }
 
 final class StartMenuViewController: UIViewController {
     
+    private enum Constants {
+        static let startMenuBackground = "StartMenuBackground.jpeg"
+    }
+    
+    static func instantiate(with presenter: StartMenuPresenterProtocol) -> StartMenuViewController {
+        let viewController: StartMenuViewController = .instantiate(storyboard: .startMenu)
+        viewController.presenter = presenter
+        return viewController
+    }
+    
     //MARK: - IBOutlets -
     @IBOutlet private weak var cameraButton: UIButton!
     @IBOutlet private weak var galleryButton: UIButton!
 
+    //MARK: - UIElements -
+    private lazy var backgroundImageView: UIImageView = {
+        let background = UIImage(named: Constants.startMenuBackground)
+        let imageView = UIImageView(frame: view.bounds)
+        imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = background
+        imageView.center = view.center
+        view.addSubview(imageView)
+        return imageView
+    }()
+    
     //MARK: - Properties -
-    public var presenter: StartMenuPresenterProtocol!
+    var presenter: StartMenuPresenterProtocol!
     
     //MARK: - Life Cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        setBackground()
+        view.sendSubviewToBack(backgroundImageView)
     }
 }
 
@@ -30,14 +52,14 @@ private extension StartMenuViewController {
 
     //MARK: - IBActions -
     @IBAction func cameraButtonTapped(_ sender: UIButton) {
-        pickerPresentor(sourceType: .camera)
+        showImagePicker(sourceType: .camera)
     }
     
     @IBAction func galleryButtonTapped(_ sender: UIButton) {
-        pickerPresentor(sourceType: .photoLibrary)
+        showImagePicker(sourceType: .photoLibrary)
     }
     
-    func pickerPresentor(sourceType: UIImagePickerController.SourceType) {
+    func showImagePicker(sourceType: UIImagePickerController.SourceType) {
         let picker = UIImagePickerController()
         picker.sourceType = sourceType
         picker.delegate = self
@@ -46,17 +68,6 @@ private extension StartMenuViewController {
     
     func showScanResult(with imageModel: ImageModel) {
         presenter.showScanResult(with: imageModel)
-    }
-    
-    func setBackground() {
-        let background = UIImage(named: Constats.startMenuBackground)
-        let imageView : UIImageView = UIImageView(frame: view.bounds)
-        imageView.contentMode =  UIView.ContentMode.scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.image = background
-        imageView.center = view.center
-        view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
     }
 }
 
@@ -77,17 +88,16 @@ extension StartMenuViewController:
         guard let originalImage = info[.originalImage] as? UIImage else {
             return
         }
-        guard let cgImage = originalImage.cgImage else { return }
+        let cgImage = originalImage.cgImage
         
         picker.dismiss(animated: true)
 
         let imageModel = ImageModel(
-            image: originalImage,
-            cgImage: cgImage
+            originalImage: originalImage,
+            transformedCgImage: cgImage
         )
         showScanResult(with: imageModel)
     }
 }
 
-// MARK: - StartMenuViewProtocol -
 extension StartMenuViewController: StartMenuViewProtocol { }

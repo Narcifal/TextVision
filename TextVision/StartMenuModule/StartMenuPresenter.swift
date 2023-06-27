@@ -5,11 +5,9 @@
 //  Created by Denys Niestierov on 23.06.2023.
 //
 
-import Foundation
+import UIKit
 
 protocol StartMenuPresenterProtocol: AnyObject {
-    init(view: StartMenuViewProtocol,
-         router: RouterProtocol)
     func showScanResult(with imageModel: ImageModel)
 }
 
@@ -20,14 +18,15 @@ final class StartMenuPresenter: StartMenuPresenterProtocol {
     private let router: RouterProtocol
     
     //MARK: - Life Cycle -
-    required init(view: StartMenuViewProtocol,
-                  router: RouterProtocol
-    ) {
-        self.view = view
+    required init(router: RouterProtocol) {
         self.router = router
     }
 
     // MARK: - Iternal -
+    func inject(view: StartMenuViewProtocol) {
+        self.view = view
+    }
+    
     func showScanResult(with imageModel: ImageModel) {
         router.showScanResultViewController(with: imageModel)
     }

@@ -7,12 +7,19 @@
 
 import UIKit
 
+@MainActor
 protocol ScanResultViewProtocol: AnyObject {
-    func setLableText(with recognizedText: String)
-    func setImage(with image: UIImage)
+    func setRecognizedText(_: String)
+    func setRenderImage(_: UIImage)
 }
 
 final class ScanResultViewController: UIViewController {
+    
+    static func instantiate(with presenter: ScanResultPresenterProtocol) -> ScanResultViewController {
+        let viewController: ScanResultViewController = .instantiate(storyboard: .scanResult)
+        viewController.presenter = presenter
+        return viewController
+    }
     
     //MARK: - IBOutlets -
     @IBOutlet private weak var label: UILabel!
@@ -26,23 +33,14 @@ final class ScanResultViewController: UIViewController {
         super.viewDidLoad()
         presenter.viewDidLoad()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        if self.isMovingFromParent {
-            navigationController?.popViewController(animated: true)
-        }
-    }
 }
 
-// MARK: - ScanResultViewProtocol -
 extension ScanResultViewController: ScanResultViewProtocol {
-    func setLableText(with recognizedText: String) {
-        self.label.text = recognizedText
+    func setRecognizedText(_ recognizedText: String) {
+        label.text = recognizedText
     }
     
-    func setImage(with image: UIImage) {
-        self.imageView.image = image
+    func setRenderImage(_ image: UIImage) {
+        imageView.image = image
     }
 }

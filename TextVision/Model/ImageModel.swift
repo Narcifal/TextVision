@@ -7,7 +7,7 @@
 
 import UIKit
 
-public struct ImageModel {
-    public var image: UIImage?
-    public var cgImage: CGImage?
+struct ImageModel {
+    var originalImage: UIImage?
+    var transformedCgImage: CGImage?
 }
