@@ -16,21 +16,18 @@ final class AssemblyModelBuilder: AssemblyBuilderProtocol {
     
     //MARK: - Internal -
     func createStartMenuModule(router: RouterProtocol) -> UIViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let view = storyboard.instantiateViewController(withIdentifier: "StartMenuViewControllerID") as! StartMenuViewController
-        let presenter = StartMenuPresenter(view: view,
-                                          router: router)
-        view.presenter = presenter
-        return view
+        let presenter = StartMenuPresenter(router: router)
+        let viewController = StartMenuViewController.instantiate(with: presenter)
+
+        presenter.inject(view: viewController)
+        return viewController
     }
     
     func createScanResultModule(router: RouterProtocol, imageModel: ImageModel) -> UIViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let view = storyboard.instantiateViewController(withIdentifier: "ScanResultViewControllerID") as! ScanResultViewController
-        let presenter = ScanResultPresenter(view: view,
-                                            router: router,
-                                            imageModel: imageModel)
-        view.presenter = presenter
-        return view
+        let presenter = ScanResultPresenter(imageModel: imageModel)
+        let viewController = ScanResultViewController.instantiate(with: presenter)
+        
+        presenter.inject(view: viewController)
+        return viewController
     }
 }
