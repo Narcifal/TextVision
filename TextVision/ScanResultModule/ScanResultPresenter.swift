@@ -74,26 +74,28 @@ private extension ScanResultPresenter {
         request.minimumTextHeight = Constants.minimumTextHeight
     }
 
-    @MainActor
     func handleDetectedText(request: VNRequest?, error: Error?) {
-        guard let results = request?.results as? [VNRecognizedTextObservation] else {
-            return
-        }
-        
-        let recognizedStrings = results.compactMap({
-            $0.topCandidates(1).first?.string
-        }).joined(separator: " ")
-        
-        let labelText = recognizedStrings.isEmpty ? Constants.noneText : recognizedStrings
-        view?.setRecognizedText(labelText)
+        DispatchQueue.main.async {
+            guard let results = request?.results as? [VNRecognizedTextObservation] else {
+                return
+            }
+            
+            let recognizedStrings = results.compactMap({
+                $0.topCandidates(1).first?.string
+            }).joined(separator: " ")
+            
+            let labelText = recognizedStrings.isEmpty ? Constants.noneText : recognizedStrings
+            self.view?.setRecognizedText(labelText)
 
-        if let image = imageModel.originalImage,
-           let resultImage = drawBoundingBoxesOnText(
-            image: image,
-            observations: results
-           ) {
-            view?.setRenderImage(resultImage)
+            if let image = self.imageModel.originalImage,
+               let resultImage = self.drawBoundingBoxesOnText(
+                image: image,
+                observations: results
+               ) {
+                self.view?.setRenderImage(resultImage)
+            }
         }
+
     }
     
     func drawBoundingBoxesOnText(
